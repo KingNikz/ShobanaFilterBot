@@ -1,16 +1,14 @@
 FROM python:3.10-slim-buster
 
-RUN apt update && apt upgrade -y
-RUN apt install git -y
+RUN apt update && apt upgrade -y && apt install -y git
 
-COPY requirements.txt /requirements.txt
+# Copy all files into the working directory
+COPY . /shobanafilterbot
 
-RUN pip3 install -U pip && pip3 install -U -r /requirements.txt
-
-RUN mkdir /shobanafilterbot
 WORKDIR /shobanafilterbot
 
-COPY /shobanafilterbot/bot.py
-COPY start.sh /start.sh
+# Install Python requirements
+RUN pip3 install -U pip && pip3 install -r requirements.txt
 
+# Start the bot
 CMD ["python3", "bot.py"]
